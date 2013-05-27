@@ -1,0 +1,22 @@
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+public class WarehouseServer {
+	public static void main(String[] args) throws Exception {
+
+		System.out.println("Constructing server implementation...");
+		WarehouseImpl centralWarehouse = new WarehouseImpl(new Book(
+				"BackupBook", "123456", 66.99));
+
+		centralWarehouse
+				.add("toaster", new Product("Blackwell Toaster", 23.95));
+
+		System.out.println("Binding server implementation to registry...");
+		//Registry registry = LocateRegistry.getRegistry();
+		Registry registry = LocateRegistry.getRegistry();
+		registry.bind("central_warehouse", centralWarehouse);
+
+		System.out.println("Waiting for invocations from clients...");
+	}
+}
+
